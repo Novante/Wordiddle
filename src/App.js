@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import SolveView from "./views/SolveView";
 
 function App() {
   return (
       <div>
-        HEJ
+        <SolveView></SolveView>
       </div>
   );
 }
