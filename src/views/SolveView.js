@@ -47,7 +47,7 @@ const SolveView = () => {
             for (let j = 0; j < splitWord.length; j++) {// för varje bokstav per ord i listan
                 if (orangeCount > 0) {
                     if (valueArr[j]?.color === 'orange') {
-                        if (arr[i].includes(valueArr[j].letter)) {
+                        if (arr[i].includes(valueArr[j].letter) && splitWord[j] !== valueArr[j].letter) {
                             tempArr.push(arr[i])
                         }
                     }
@@ -85,10 +85,12 @@ const SolveView = () => {
 
         if (!greenFiltered) {
             tempArr = tempArr.filter(e => !deleteArr.includes(e))
-            setArr(tempArr)
+            const unique = [...new Set(tempArr)]
+            setArr(unique)
         } else {
             tempArr2 = tempArr2.filter(e => !deleteArr.includes(e))
-            setArr(tempArr2)
+            const unique = [...new Set(tempArr2)]
+            setArr(unique)
         }
 
 
