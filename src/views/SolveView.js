@@ -1,6 +1,8 @@
 import {v4 as uuid} from 'uuid';
 import {useState} from "react";
 import WordList from "../components/WordList";
+import InputLetterSquare from "../components/InputLetterSquare";
+import InputLetterGroup from "../components/InputLetterGroup";
 
 const SolveView = () => {
 
@@ -108,6 +110,10 @@ const SolveView = () => {
             <div>
                 <input value={inputWord} onChange={handleChangeInput}></input>
             </div>
+
+            <InputLetterGroup inputWord={inputWord}>
+
+            </InputLetterGroup>
 
             <div>
                 <button onClick={() => handleClick()}>123</button>
