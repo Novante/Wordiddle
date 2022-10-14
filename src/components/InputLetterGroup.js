@@ -3,6 +3,13 @@ import InputLetterSquare from "./InputLetterSquare";
 const InputLetterGroup = (props) => {
 
     let charArr = Array.from(props.inputWord)
+    let boxArr = ['.','.','.','.','.']
+
+    for (let i = 0; i < charArr.length; i++) {
+        if (charArr[i] !== undefined){
+            boxArr[i] = charArr[i]
+        }
+    }
 
 
 
@@ -10,11 +17,9 @@ const InputLetterGroup = (props) => {
         <>
             <div style={styles.container}>
             {
-                charArr.map(letter => {
+                boxArr.map(letter => {
                     return (
-                        <div>
-                            {letter}
-                        </div>
+                        <InputLetterSquare letter={letter}></InputLetterSquare>
                     )
                 })
             }
@@ -26,7 +31,9 @@ const InputLetterGroup = (props) => {
 const styles = {
     container: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingTop: '100px'
     }
 }
 

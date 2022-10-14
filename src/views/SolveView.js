@@ -106,7 +106,7 @@ const SolveView = () => {
     }
 
     return (
-        <>
+        <div style={styles.container}>
             <div>
                 <input value={inputWord} onChange={handleChangeInput}></input>
             </div>
@@ -122,7 +122,15 @@ const SolveView = () => {
             <WordList arr={arr}></WordList>
 
 
-        </>
+        </div>
     )
+}
+
+const styles = {
+    container: {
+        marginLeft: '400px',
+        marginRight: '400px',
+        border: '1px solid black'
+    }
 }
 export default SolveView;
