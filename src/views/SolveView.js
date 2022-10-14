@@ -11,11 +11,12 @@ const SolveView = () => {
     let orangeCount = 0
     let blankCount = 0
     let greenFiltered = false;
+    const valueArr = []
+
 
 
     const handleClick = () => {
         const charArr = inputWord.split("");
-        const valueArr = []
 
         for (let i = 0; i < charArr.length; i++) {
             if (charArr[i] === ('+') || charArr[i] === ('-') || charArr[i] === ('*')) {
@@ -45,24 +46,19 @@ const SolveView = () => {
             const splitWord = arr[i].split('') // splitta alla ord i listan
             for (let j = 0; j < splitWord.length; j++) {// för varje bokstav per ord i listan
                 if (orangeCount > 0) {
-                    if (valueArr[j].color === 'orange') {
+                    if (valueArr[j]?.color === 'orange') {
                         if (arr[i].includes(valueArr[j].letter)) {
                             tempArr.push(arr[i])
                         }
                     }
-
                 }
                 if (blankCount > 0){
-                    if (valueArr[j].color === 'clear') {
+                    if (valueArr[j]?.color === 'clear') {
                         if (splitWord[j] === valueArr[j].letter)
                             deleteArr.push(arr[i])
                     }
                 }
-
-
-
             }
-
         }
 
         if (tempArr.length === 0) {
@@ -74,7 +70,7 @@ const SolveView = () => {
             const splitWord = tempArr[i].split('') // splitta alla ord i listan
             for (let j = 0; j < splitWord.length; j++) {
                 if (greenCount > 0) {
-                    if (valueArr[j].color === 'green') {
+                    if (valueArr[j]?.color === 'green') {
                         if (splitWord[j] === valueArr[j].letter) {
                             greenLoop++;
                         }
