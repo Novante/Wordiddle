@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const InputLetterSquare = ({letter}) => {
+const InputLetterSquare = (props) => {
 
     const [backgroundColor, setBackgroundColor] = useState('white')
     const [buttonCount, setButtonCount] = useState(0)
@@ -13,10 +13,13 @@ const InputLetterSquare = ({letter}) => {
         }
 
         if (buttonCount === 0){
+            props.setLetterState('*')
             setBackgroundColor('white')
         } else if (buttonCount === 1){
+            props.setLetterState('-')
             setBackgroundColor('orange')
         } else if (buttonCount === 2){
+            props.setLetterState('+')
             setBackgroundColor('green')
         }
     }
@@ -24,7 +27,7 @@ const InputLetterSquare = ({letter}) => {
     return (
         <>
         <button onClick={changeColor} style={{...styles.container, backgroundColor: backgroundColor}}>
-            {letter.toUpperCase()}
+            {props.letter.toUpperCase()}
         </button>
     </>)
 }
