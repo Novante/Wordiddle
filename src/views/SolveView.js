@@ -111,17 +111,17 @@ const SolveView = () => {
         let testArr = arr
 
 
-         for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
+        for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
             console.log(valueArr[i])
             let deleteArr = []
             if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
-                 for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
+                for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
                     let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
-                    for (let k = 0; k < 4; k++) { // för varje bokstav i splitword
-
+                    for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
                         if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
                             deleteArr.push(tempArr[j])
-                        } else if (!tempArr[j].includes(valueArr[i]?.letter)){
+                        } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
+                            usedCharArr.push(valueArr[i]?.letter)
                             deleteArr.push(tempArr[j])
                         }
 
@@ -139,7 +139,8 @@ const SolveView = () => {
                     let splitWord = Array.from(tempArr[j])
                     for (let k = 0; k < 4; k++) {
 
-                        if (valueArr[i]?.letter === splitWord[i]){
+                        if (valueArr[i]?.letter === splitWord[i]) {
+                            usedCharArr.push(valueArr[i]?.letter)
                             console.log('found word with letter on same position', tempArr[j])
                             greenArr.push(tempArr[j])
                         }
@@ -147,10 +148,37 @@ const SolveView = () => {
                 }
                 tempArr = tempArr.filter((word) => greenArr.includes(word))
             }
+
+            if (valueArr[i].color === 'clear') {
+
+                let letterArr = []
+                let count = 0
+
+                for (let j = 0; j < 5; j++) {
+                    if (!letterArr.includes(valueArr[j]?.letter)){
+                        letterArr.push(valueArr[j])
+                    } else {
+                        count++
+                    }
+                }
+
+                console.log(letterArr, count)
+
+                let clearArr = []
+                for (let j = 0; j < tempArr.length; j++) {
+                    let splitWord = Array.from(tempArr[j])
+                    for (let k = 0; k < 4; k++) {
+                        if (splitWord[k] === valueArr[i]?.letter){
+                            clearArr.push(tempArr[j])
+                        }
+                    }
+
+                }
+                tempArr = tempArr.filter((word) => !clearArr.includes(word))
+            }
         }
 
         setArr(tempArr)
-
 
 
         // if (orangeCount > 0) {
@@ -194,7 +222,6 @@ const SolveView = () => {
         console.log('deleteset', deleteSet)
 
 
-        console.log(usedCharArr)
         // let unique = [...new Set(modifiableArr)]
 
 
