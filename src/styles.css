@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Exo+2:ital,wght@1,500&display=swap');
+
+.title {
+    font-family: 'Caveat';
+    font-size: 50px;
+}
+
 .wordlist-wrapper {
     overflow: scroll;
     height: 500px;
@@ -5,5 +12,18 @@
 
 .wordlist-wrapper::-webkit-scrollbar {
     display: none;
+}
+
+.button {
+    font-family: 'Caveat';
+    font-size: 30px;
+    padding: 20px 22px 20px 20px;
+    border-radius: 50%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.containerWrapper {
+    background-color: lightgray;
 }
 

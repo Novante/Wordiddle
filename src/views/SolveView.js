@@ -52,7 +52,7 @@ const SolveView = () => {
         return () => {
             window.removeEventListener('wheel', handleScroll)
         }
-    },[])
+    }, [])
 
 
     const handleKeyboardInput = (v) => {
@@ -67,9 +67,9 @@ const SolveView = () => {
 
     const handleScroll = (e) => {
         console.log(e.wheelDelta)
-        if (e.wheelDelta < 0){
+        if (e.wheelDelta < 0) {
             wordListScroll.current?.scrollBy(0, Math.abs(e.wheelDelta))
-        } else if (e.wheelDelta > 0){
+        } else if (e.wheelDelta > 0) {
             wordListScroll.current?.scrollBy(0, -Math.abs(e.wheelDelta))
 
         }
@@ -278,49 +278,69 @@ const SolveView = () => {
     }
 
 
-
     return (
-        <div onScroll={handleScroll} style={styles.container}>
-            <InputLetterGroup boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
-                              l3={setLetter3State}
-                              l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
-            </InputLetterGroup>
+        <div className="containerWrapper">
+            <div onScroll={handleScroll} style={styles.container}>
 
-            <div>
-                <button onClick={handleClick}>123</button>
-            </div>
-            <div style={styles.wordContainer}>
-                <h2>{arr.length} possible words remaining</h2>
-                <div ref={wordListScroll} className="wordlist-wrapper">
-                    <WordList style={styles.wordList} arr={arr}></WordList>
+                <h1 className="title">Wordiddle</h1>
+
+                <InputLetterGroup boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
+                                  l3={setLetter3State}
+                                  l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
+                </InputLetterGroup>
+
+                <div style={styles.buttonWrapper}>
+                    <button className="button" onClick={handleClick}>Diddle</button>
                 </div>
+                <div style={styles.wordContainer}>
+                    <h2>{arr.length} possible words remaining</h2>
+                    <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have a {((1/arr.length)*1000).toFixed(2)}% chance of selecting the correct word!</h3>
+                    <div ref={wordListScroll} className="wordlist-wrapper">
+                        <WordList style={styles.wordList} arr={arr}></WordList>
+                    </div>
+                </div>
+
             </div>
 
         </div>
+
     )
 }
 
 const styles = {
     container: {
+        display: 'flex',
+        flexDirection: 'column',
         marginLeft: '400px',
         marginRight: '400px',
-        border: '1px solid black',
+        alignItems: 'center',
+        height: '100vh',
+        overflow: 'hidden'
+
     },
     wordContainer: {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
+        paddingTop: '100px',
+        height: '400px'
     },
     remainingText: {
         textAlign: 'center',
         width: '50%',
         maxHeight: '50px',
     },
-    wordList: {
-    },
-    wordListWrapper:{
+    wordList: {},
+    wordListWrapper: {
         height: '500px',
         overflowY: 'scroll'
-    }
+    },
+    buttonWrapper: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '10%'
+    },
+
+
 }
 export default SolveView;
