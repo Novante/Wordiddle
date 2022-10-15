@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 const InputLetterGroup = (props) => {
 
     let charArr = Array.from(props.inputWord)
-    let boxArr = ['.', '.', '.', '.', '.']
+    let boxArr = props.boxArr
 
 
 

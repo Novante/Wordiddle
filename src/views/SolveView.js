@@ -1,8 +1,9 @@
 import {v4 as uuid} from 'uuid';
-import {useEffect, useState} from "react";
+import {createRef, useEffect, useRef, useState} from "react";
 import WordList from "../components/WordList";
 import InputLetterSquare from "../components/InputLetterSquare";
 import InputLetterGroup from "../components/InputLetterGroup";
+import extStyles from '../styles.css'
 
 const SolveView = () => {
 
@@ -11,6 +12,8 @@ const SolveView = () => {
     const wordString2 = "emcee,agree,melee,payee,puree,rupee,scree"
     const [arr, setArr] = useState(wordString.split(","))
     const [inputWord, setInputWord] = useState('')
+    let boxArr = ['_', '_', '_', '_', '_']
+    const wordListScroll = useRef()
 
     const [letter1State, setLetter1State] = useState('*')
     const [letter2State, setLetter2State] = useState('*')
@@ -36,7 +39,6 @@ const SolveView = () => {
                 value.preventDefault()
             }
         )
-
         return () => {
             window.removeEventListener("keydown", handleKeyboardInput, function (value) {
             })
@@ -44,9 +46,17 @@ const SolveView = () => {
 
     }, [inputWord])
 
+    useEffect(() => {
+        window.addEventListener('wheel', handleScroll)
+
+        return () => {
+            window.removeEventListener('wheel', handleScroll)
+        }
+    },[])
+
 
     const handleKeyboardInput = (v) => {
-        console.log(inputWord.length+1)
+        console.log(inputWord.length + 1)
 
         if (v.key === 'Backspace') {
             setInputWord(inputWord => inputWord.slice(0, -1))
@@ -55,193 +65,210 @@ const SolveView = () => {
         }
     }
 
+    const handleScroll = (e) => {
+        console.log(e.wheelDelta)
+        if (e.wheelDelta < 0){
+            wordListScroll.current?.scrollBy(0, Math.abs(e.wheelDelta))
+        } else if (e.wheelDelta > 0){
+            wordListScroll.current?.scrollBy(0, -Math.abs(e.wheelDelta))
+
+        }
+
+
+    }
+
 
     const handleClick = () => {
 
-        const charArr = inputWord.split("");
+        if (!boxArr.includes("_")) {
 
 
-        if (letter5State === '-') {
-            charArr.splice(4, 0, '-')
-        } else if (letter5State === '+') {
-            charArr.splice(4, 0, '+')
-        } else if (letter5State === '*') {
-            charArr.splice(4, 0, '*')
-        }
-
-        if (letter4State === '-') {
-            charArr.splice(3, 0, '-')
-        } else if (letter4State === '+') {
-            charArr.splice(3, 0, '+')
-        } else if (letter4State === '*') {
-            charArr.splice(3, 0, '*')
-        }
-
-        if (letter3State === '-') {
-            charArr.splice(2, 0, '-')
-        } else if (letter3State === '+') {
-            charArr.splice(2, 0, '+')
-        } else if (letter3State === '*') {
-            charArr.splice(2, 0, '*')
-        }
-
-        if (letter2State === '-') {
-            charArr.splice(1, 0, '-')
-        } else if (letter2State === '+') {
-            charArr.splice(1, 0, '+')
-        } else if (letter2State === '*') {
-            charArr.splice(1, 0, '*')
-        }
-
-        if (letter1State === '-') {
-            charArr.unshift('-')
-        } else if (letter1State === '+') {
-            charArr.unshift('+')
-        } else if (letter1State === '*') {
-            charArr.unshift('*')
-        }
-
-        console.log(charArr)
-
-        let count = 0;
+            const charArr = inputWord.split("");
 
 
-        for (let i = 0; i < charArr.length; i++) {
-            if (charArr[i] === ('+') || charArr[i] === ('-') || charArr[i] === ('*')) {
-
-            } else if (charArr[i - 1] === '-') {
-                valueArr.push({id: count, letter: charArr[i], color: 'orange'})
-                orangeLetters.push(charArr[i])
-                orangeCount++;
-                greenAndOrangeArr.push(charArr[i])
-                count++
-            } else if (charArr[i - 1] === '+') {
-                valueArr.push({id: count, letter: charArr[i], color: 'green'})
-                greenCount++;
-                greenAndOrangeArr.push(charArr[i])
-                count++
-
-            } else if (charArr[i - 1] === '*') {
-                valueArr.push({id: count, letter: charArr[i], color: 'clear'})
-                blankCount++;
-                count++
-
-            }
-        }
-
-        let tempArr = arr
-
-
-        console.log(valueArr)
-
-        // Let's treat every character from the valueArr separately!
-        // Modify the array after every letter has gone through the "mix" separately.
-
-        let modifiableArr = []
-        let deleteSet = new Set()
-        let testArr = arr
-
-
-        for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
-            let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
-            console.log('LETTA', valueArr[i].letter, inputLetterCount)
-            let deleteArr = []
-            if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
-                for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
-                    let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
-                    console.log('lettercountr', letterCount)
-                    let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
-
-                    for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
-
-                        if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
-                            deleteArr.push(tempArr[j])
-                        } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
-                            deleteArr.push(tempArr[j])
-                        }
-                        if (inputLetterCount > letterCount) {
-                            deleteArr.push(tempArr[j])
-                        }
-
-                    }
-                }
-
-                // filtrera bort ord som förekommer två gånger
-
-                tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+            if (letter5State === '-') {
+                charArr.splice(4, 0, '-')
+            } else if (letter5State === '+') {
+                charArr.splice(4, 0, '+')
+            } else if (letter5State === '*') {
+                charArr.splice(4, 0, '*')
             }
 
-            if (valueArr[i].color === 'green') {
-                let greenArr = []
-                for (let j = 0; j < tempArr.length; j++) {
-                    let splitWord = Array.from(tempArr[j])
-                    for (let k = 0; k < 5; k++) {
-
-                        if (valueArr[i]?.letter === splitWord[i]) {
-                            console.log('found word with letter on same position', tempArr[j])
-                            greenArr.push(tempArr[j])
-                        }
-                    }
-                }
-                tempArr = tempArr.filter((word) => greenArr.includes(word))
+            if (letter4State === '-') {
+                charArr.splice(3, 0, '-')
+            } else if (letter4State === '+') {
+                charArr.splice(3, 0, '+')
+            } else if (letter4State === '*') {
+                charArr.splice(3, 0, '*')
             }
 
-            if (valueArr[i].color === 'clear') {
+            if (letter3State === '-') {
+                charArr.splice(2, 0, '-')
+            } else if (letter3State === '+') {
+                charArr.splice(2, 0, '+')
+            } else if (letter3State === '*') {
+                charArr.splice(2, 0, '*')
+            }
 
-                let letterMap = new Map()
-                let splitWordMap = new Map()
+            if (letter2State === '-') {
+                charArr.splice(1, 0, '-')
+            } else if (letter2State === '+') {
+                charArr.splice(1, 0, '+')
+            } else if (letter2State === '*') {
+                charArr.splice(1, 0, '*')
+            }
 
-                for (let j = 0; j < 5; j++) {
-                    if (!letterMap.has(valueArr[j]?.letter)) {
-                        letterMap.set(valueArr[j].letter, 1)
-                    } else {
-                        letterMap.set(valueArr[j].letter, letterMap.get(valueArr[j].letter) + 1)
-                    }
+            if (letter1State === '-') {
+                charArr.unshift('-')
+            } else if (letter1State === '+') {
+                charArr.unshift('+')
+            } else if (letter1State === '*') {
+                charArr.unshift('*')
+            }
+
+            console.log(charArr)
+
+            let count = 0;
+
+
+            for (let i = 0; i < charArr.length; i++) {
+                if (charArr[i] === ('+') || charArr[i] === ('-') || charArr[i] === ('*')) {
+
+                } else if (charArr[i - 1] === '-') {
+                    valueArr.push({id: count, letter: charArr[i], color: 'orange'})
+                    orangeLetters.push(charArr[i])
+                    orangeCount++;
+                    greenAndOrangeArr.push(charArr[i])
+                    count++
+                } else if (charArr[i - 1] === '+') {
+                    valueArr.push({id: count, letter: charArr[i], color: 'green'})
+                    greenCount++;
+                    greenAndOrangeArr.push(charArr[i])
+                    count++
+
+                } else if (charArr[i - 1] === '*') {
+                    valueArr.push({id: count, letter: charArr[i], color: 'clear'})
+                    blankCount++;
+                    count++
+
                 }
+            }
+
+            let tempArr = arr
 
 
-                let clearArr = []
-                for (let j = 0; j < tempArr.length; j++) {
-                    let splitWord = Array.from(tempArr[j])
+            console.log(valueArr)
 
-                    for (let k = 0; k < 5; k++) {
-                        if (!splitWordMap.has(splitWord[k])) {
-                            splitWordMap.set(splitWord[k], 1)
-                        } else {
-                            splitWordMap.set(splitWord[k], splitWordMap.get(splitWord[k] + 1))
+            // Let's treat every character from the valueArr separately!
+            // Modify the array after every letter has gone through the "mix" separately.
+
+            let modifiableArr = []
+            let deleteSet = new Set()
+            let testArr = arr
+
+
+            for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
+                let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
+                let deleteArr = []
+                if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
+                    for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
+                        let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
+                        console.log('lettercountr', letterCount)
+                        let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
+
+                        for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
+
+                            if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
+                                deleteArr.push(tempArr[j])
+                            } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
+                                deleteArr.push(tempArr[j])
+                            }
+                            if (inputLetterCount > letterCount) {
+                                deleteArr.push(tempArr[j])
+                            }
+
                         }
                     }
 
+                    // filtrera bort ord som förekommer två gånger
 
-                    for (let k = 0; k < 5; k++) {
+                    tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+                }
 
-                        if (splitWord[k] === valueArr[i]?.letter) {
-                            if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
-                                clearArr.push(tempArr[j])
+                if (valueArr[i].color === 'green') {
+                    let greenArr = []
+                    for (let j = 0; j < tempArr.length; j++) {
+                        let splitWord = Array.from(tempArr[j])
+                        for (let k = 0; k < 5; k++) {
+
+                            if (valueArr[i]?.letter === splitWord[i]) {
+                                console.log('found word with letter on same position', tempArr[j])
+                                greenArr.push(tempArr[j])
                             }
                         }
                     }
-
+                    tempArr = tempArr.filter((word) => greenArr.includes(word))
                 }
-                tempArr = tempArr.filter((word) => !clearArr.includes(word))
+
+                if (valueArr[i].color === 'clear') {
+
+                    let letterMap = new Map()
+                    let splitWordMap = new Map()
+
+                    for (let j = 0; j < 5; j++) {
+                        if (!letterMap.has(valueArr[j]?.letter)) {
+                            letterMap.set(valueArr[j].letter, 1)
+                        } else {
+                            letterMap.set(valueArr[j].letter, letterMap.get(valueArr[j].letter) + 1)
+                        }
+                    }
+
+
+                    let clearArr = []
+                    for (let j = 0; j < tempArr.length; j++) {
+                        let splitWord = Array.from(tempArr[j])
+
+                        for (let k = 0; k < 5; k++) {
+                            if (!splitWordMap.has(splitWord[k])) {
+                                splitWordMap.set(splitWord[k], 1)
+                            } else {
+                                splitWordMap.set(splitWord[k], splitWordMap.get(splitWord[k] + 1))
+                            }
+                        }
+
+
+                        for (let k = 0; k < 5; k++) {
+
+                            if (splitWord[k] === valueArr[i]?.letter) {
+                                if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
+                                    clearArr.push(tempArr[j])
+                                }
+                            }
+                        }
+
+                    }
+                    tempArr = tempArr.filter((word) => !clearArr.includes(word))
+                }
             }
+
+            setArr(tempArr)
+
+
+            console.log('deleteset', deleteSet)
+
+
+            // let unique = [...new Set(modifiableArr)]
+
+
+            console.log(greenCount)
+            console.log(valueArr[2])
+
+
+            // console.log(tempArr)
+            // console.log(tempArr2)
+        } else {
+            alert('You must fill all boxes')
         }
-
-        setArr(tempArr)
-
-
-        console.log('deleteset', deleteSet)
-
-
-        // let unique = [...new Set(modifiableArr)]
-
-
-        console.log(greenCount)
-        console.log(valueArr[2])
-
-
-        // console.log(tempArr)
-        // console.log(tempArr2)
 
     }
 
@@ -250,21 +277,24 @@ const SolveView = () => {
         setInputWord(event.target.value)
     }
 
+
+
     return (
-        <div style={styles.container}>
-
-
-            <InputLetterGroup inputWord={inputWord} l1={setLetter1State} l2={setLetter2State} l3={setLetter3State}
+        <div onScroll={handleScroll} style={styles.container}>
+            <InputLetterGroup boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
+                              l3={setLetter3State}
                               l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
-
             </InputLetterGroup>
 
             <div>
-                <button onClick={() => handleClick()}>123</button>
+                <button onClick={handleClick}>123</button>
             </div>
-            <h2>{arr.length} possible words remaining</h2>
-            <WordList arr={arr}></WordList>
-
+            <div style={styles.wordContainer}>
+                <h2>{arr.length} possible words remaining</h2>
+                <div ref={wordListScroll} className="wordlist-wrapper">
+                    <WordList style={styles.wordList} arr={arr}></WordList>
+                </div>
+            </div>
 
         </div>
     )
@@ -274,7 +304,23 @@ const styles = {
     container: {
         marginLeft: '400px',
         marginRight: '400px',
-        border: '1px solid black'
+        border: '1px solid black',
+    },
+    wordContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    remainingText: {
+        textAlign: 'center',
+        width: '50%',
+        maxHeight: '50px',
+    },
+    wordList: {
+    },
+    wordListWrapper:{
+        height: '500px',
+        overflowY: 'scroll'
     }
 }
 export default SolveView;

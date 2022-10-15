@@ -1,0 +1,9 @@
+.wordlist-wrapper {
+    overflow: scroll;
+    height: 500px;
+}
+
+.wordlist-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
