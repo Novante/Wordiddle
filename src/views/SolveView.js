@@ -32,6 +32,7 @@ const SolveView = () => {
 
         const charArr = inputWord.split("");
 
+
         if (letter5State === '-') {
             charArr.splice(4, 0, '-')
         } else if (letter5State === '+') {
@@ -121,7 +122,6 @@ const SolveView = () => {
                         if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
                             deleteArr.push(tempArr[j])
                         } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
-                            usedCharArr.push(valueArr[i]?.letter)
                             deleteArr.push(tempArr[j])
                         }
 
@@ -137,10 +137,9 @@ const SolveView = () => {
                 let greenArr = []
                 for (let j = 0; j < tempArr.length; j++) {
                     let splitWord = Array.from(tempArr[j])
-                    for (let k = 0; k < 4; k++) {
+                    for (let k = 0; k < 5; k++) {
 
                         if (valueArr[i]?.letter === splitWord[i]) {
-                            usedCharArr.push(valueArr[i]?.letter)
                             console.log('found word with letter on same position', tempArr[j])
                             greenArr.push(tempArr[j])
                         }
@@ -151,24 +150,34 @@ const SolveView = () => {
 
             if (valueArr[i].color === 'clear') {
 
-                let letterArr = []
-                let count = 0
+                let letterMap = new Map()
+                let splitWordMap = new Map()
 
                 for (let j = 0; j < 5; j++) {
-                    if (!letterArr.includes(valueArr[j]?.letter)){
-                        letterArr.push(valueArr[j])
+                    if (!letterMap.has(valueArr[j]?.letter)) {
+                        letterMap.set(valueArr[j].letter, 1)
                     } else {
-                        count++
+                        letterMap.set(valueArr[j].letter, letterMap.get(valueArr[j].letter) + 1)
                     }
                 }
 
-                console.log(letterArr, count)
 
                 let clearArr = []
                 for (let j = 0; j < tempArr.length; j++) {
                     let splitWord = Array.from(tempArr[j])
-                    for (let k = 0; k < 4; k++) {
-                        if (splitWord[k] === valueArr[i]?.letter){
+
+                    for (let k = 0; k < 5; k++) {
+                        if (!splitWordMap.has(splitWord[k])){
+                            splitWordMap.set(splitWord[k], 1)
+                        } else {
+                            splitWordMap.set(splitWord[k], splitWordMap.get(splitWord[k] + 1))
+                        }
+                            }
+
+
+                    for (let k = 0; k < 5; k++) {
+
+                        if (splitWord[k] === valueArr[i]?.letter && letterMap.get(valueArr[k] !== splitWordMap.get(splitWord[k]))) {
                             clearArr.push(tempArr[j])
                         }
                     }
@@ -180,44 +189,6 @@ const SolveView = () => {
 
         setArr(tempArr)
 
-
-        // if (orangeCount > 0) {
-        //    main: for (let i = 0; i < testArr.length; i++) {
-        //         let splitWord = Array.from(arr[i])
-        //         let count = 0;
-        //         let orangeLetterCount = 0
-        //         let tempSplitWord = [...splitWord]
-        //         let tempValueArr = [...valueArr]
-        //
-        //         main2: for (let j = 0; j < splitWord.length; j++) { // för varje bokstav i ordet
-        //             for (let k = 0; k < tempValueArr?.length; k++) { // för varje bokstav i valueArr
-        //                 if (tempValueArr[k]?.color === 'orange') {
-        //                     if (splitWord[j] === tempValueArr[k]?.letter){
-        //                         // om letter e samma, splice bort ordet ur listan. alternativt lägg till i ny lista/set?
-        //                         deleteSet.add(testArr[i])
-        //                         break main2;
-        //
-        //
-        //                         // om includecount är lika stor som orange, då är båda bokstäverna med i ordet. då lägger vi till det.
-        //                     }
-        //                 }
-        //
-        //
-        //
-        //
-        //                 // if (tempSplitWord.indexOf(tempSplitWord[j]) === valueArr[k]?.id && tempSplitWord[j] === valueArr[k]?.letter) {
-        //                 //     console.log('same index and letter', tempSplitWord[j], valueArr[k]?.letter)
-        //                 //     console.log(testArr.length)
-        //                 // }
-        //
-        //                 // after splice loop
-        //
-        //
-        //             }
-        //
-        //         }
-        //     }
-        // }
 
         console.log('deleteset', deleteSet)
 
