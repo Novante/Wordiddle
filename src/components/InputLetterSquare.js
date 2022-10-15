@@ -2,8 +2,8 @@ import {useState} from "react";
 
 const InputLetterSquare = (props) => {
 
-    const [backgroundColor, setBackgroundColor] = useState('white')
-    const [buttonCount, setButtonCount] = useState(0)
+    const [backgroundColor, setBackgroundColor] = useState('lightgray')
+    const [buttonCount, setButtonCount] = useState(1)
 
     const changeColor = () => {
         if (buttonCount === 2){
@@ -14,7 +14,7 @@ const InputLetterSquare = (props) => {
 
         if (buttonCount === 0){
             props.setLetterState('*')
-            setBackgroundColor('white')
+            setBackgroundColor('lightgray')
         } else if (buttonCount === 1){
             props.setLetterState('-')
             setBackgroundColor('orange')

@@ -26,6 +26,7 @@ const SolveView = () => {
     let greenFiltered = false;
     const valueArr = []
     let usedCharArr = []
+    let greenAndOrangeArr = []
 
 
     const handleClick = () => {
@@ -85,10 +86,12 @@ const SolveView = () => {
                 valueArr.push({id: count, letter: charArr[i], color: 'orange'})
                 orangeLetters.push(charArr[i])
                 orangeCount++;
+                greenAndOrangeArr.push(charArr[i])
                 count++
             } else if (charArr[i - 1] === '+') {
                 valueArr.push({id: count, letter: charArr[i], color: 'green'})
                 greenCount++;
+                greenAndOrangeArr.push(charArr[i])
                 count++
 
             } else if (charArr[i - 1] === '*') {
@@ -113,15 +116,23 @@ const SolveView = () => {
 
 
         for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
-            console.log(valueArr[i])
+            let inputLetterCount = inputWord.split(valueArr[i].letter).length-1
+            console.log('LETTA', valueArr[i].letter, inputLetterCount)
             let deleteArr = []
             if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
                 for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
+                    let letterCount = tempArr[j].split(valueArr[i].letter).length-1 // kolla hur många gånger letter förekommer i ordet
+                    console.log('lettercountr', letterCount)
                     let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
+
                     for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
+
                         if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
                             deleteArr.push(tempArr[j])
                         } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
+                            deleteArr.push(tempArr[j])
+                        }
+                        if (inputLetterCount > letterCount){
                             deleteArr.push(tempArr[j])
                         }
 
@@ -177,8 +188,10 @@ const SolveView = () => {
 
                     for (let k = 0; k < 5; k++) {
 
-                        if (splitWord[k] === valueArr[i]?.letter && letterMap.get(valueArr[k] !== splitWordMap.get(splitWord[k]))) {
-                            clearArr.push(tempArr[j])
+                        if (splitWord[k] === valueArr[i]?.letter) {
+                            if (!greenAndOrangeArr.includes(valueArr[i]?.letter)){
+                                clearArr.push(tempArr[j])
+                            }
                         }
                     }
 
