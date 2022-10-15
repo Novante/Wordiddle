@@ -111,11 +111,11 @@ const SolveView = () => {
         let testArr = arr
 
 
-        valueArrLoop: for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
+         for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
             console.log(valueArr[i])
             let deleteArr = []
             if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
-                wordListLoop: for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
+                 for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
                     let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
                     for (let k = 0; k < 4; k++) { // för varje bokstav i splitword
 
@@ -131,8 +131,21 @@ const SolveView = () => {
                 // filtrera bort ord som förekommer två gånger
 
                 tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+            }
 
+            if (valueArr[i].color === 'green') {
+                let greenArr = []
+                for (let j = 0; j < tempArr.length; j++) {
+                    let splitWord = Array.from(tempArr[j])
+                    for (let k = 0; k < 4; k++) {
 
+                        if (valueArr[i]?.letter === splitWord[i]){
+                            console.log('found word with letter on same position', tempArr[j])
+                            greenArr.push(tempArr[j])
+                        }
+                    }
+                }
+                tempArr = tempArr.filter((word) => greenArr.includes(word))
             }
         }
 
