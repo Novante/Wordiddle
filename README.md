@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Wordiddly
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Wordiddly is a cheat for the popular game Wordle
 
 ## Available Scripts
 
