@@ -33,6 +33,8 @@ const SolveView = () => {
     const valueArr = []
     let usedCharArr = []
     let greenAndOrangeArr = []
+    let tempArr = arr
+
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyboardInput, function (value) {
@@ -75,6 +77,10 @@ const SolveView = () => {
         }
 
 
+    }
+
+    const resetWordArray = () => {
+        setArr(wordString.split(','))
     }
 
 
@@ -154,18 +160,9 @@ const SolveView = () => {
                 }
             }
 
-            let tempArr = arr
-
+            tempArr = arr
 
             console.log(valueArr)
-
-            // Let's treat every character from the valueArr separately!
-            // Modify the array after every letter has gone through the "mix" separately.
-
-            let modifiableArr = []
-            let deleteSet = new Set()
-            let testArr = arr
-
 
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
                 let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
@@ -254,47 +251,39 @@ const SolveView = () => {
             setArr(tempArr)
 
 
-            console.log('deleteset', deleteSet)
-
-
-            // let unique = [...new Set(modifiableArr)]
-
-
             console.log(greenCount)
             console.log(valueArr[2])
-
-
-            // console.log(tempArr)
-            // console.log(tempArr2)
         } else {
             alert('You must fill all boxes')
         }
 
     }
 
-
-    const handleChangeInput = event => {
-        setInputWord(event.target.value)
-    }
-
-
     return (
         <div className="containerWrapper">
             <div onScroll={handleScroll} style={styles.container}>
 
                 <h1 className="title">Wordiddle</h1>
-
-                <InputLetterGroup boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
-                                  l3={setLetter3State}
-                                  l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
-                </InputLetterGroup>
-
+                <hr style={{width: '50%', marginTop: -20}}></hr>
+                    <InputLetterGroup resetWordArr={resetWordArray} boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
+                                      l3={setLetter3State}
+                                      l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
+                    </InputLetterGroup>
                 <div style={styles.buttonWrapper}>
-                    <button className="button" onClick={handleClick}>Diddle</button>
+                    <button className="start-btn" onClick={handleClick}>Diddle</button>
                 </div>
                 <div style={styles.wordContainer}>
-                    <h2>{arr.length} possible words remaining</h2>
-                    <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have a {((1/arr.length)*1000).toFixed(2)}% chance of selecting the correct word!</h3>
+                    {
+                        arr.length > 1 &&
+                        <h2>{arr.length} possible words remaining</h2>
+                    }
+                    {
+                        arr.length === 1 &&
+                        <h2>1 possible word remaining</h2>
+
+                    }
+                    <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have
+                        a {((1 / arr.length) * 100).toFixed(2)}% chance of selecting the correct word!</h3>
                     <div ref={wordListScroll} className="wordlist-wrapper">
                         <WordList style={styles.wordList} arr={arr}></WordList>
                     </div>
@@ -315,14 +304,14 @@ const styles = {
         marginRight: '400px',
         alignItems: 'center',
         height: '100vh',
-        overflow: 'hidden'
+        overflow: 'hidden',
 
     },
     wordContainer: {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        paddingTop: '100px',
+        paddingTop: '50px',
         height: '400px'
     },
     remainingText: {
