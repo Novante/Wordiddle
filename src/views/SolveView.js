@@ -165,6 +165,7 @@ const SolveView = () => {
             console.log(valueArr)
 
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
+                let multipleLetterArr = []
                 let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
                 let deleteArr = []
                 if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
@@ -179,6 +180,7 @@ const SolveView = () => {
                         }
 
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
+                            let goCount = greenAndOrangeArr.join(',').split(valueArr[i].letter).length-1
 
                             if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
                                 deleteArr.push(tempArr[j])
@@ -186,8 +188,12 @@ const SolveView = () => {
                                 deleteArr.push(tempArr[j])
                             }
 
-                            if (inputLetterCount > letterCount) {
-                                deleteArr.push(tempArr[j])
+                            // if (inputLetterCount > letterCount) {
+                            //     deleteArr.push(tempArr[j])
+                            // }
+
+                            if (letterCount > goCount){
+                                multipleLetterArr.push(tempArr[j])
                             }
 
                         }
@@ -196,6 +202,8 @@ const SolveView = () => {
                     // filtrera bort ord som förekommer två gånger
 
                     tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+                    tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
+
                 }
 
                 if (valueArr[i].color === 'green') {
