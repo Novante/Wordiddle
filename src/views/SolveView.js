@@ -14,6 +14,7 @@ const SolveView = () => {
     const [inputWord, setInputWord] = useState('')
     let boxArr = ['_', '_', '_', '_', '_']
     const wordListScroll = useRef()
+    const [usedWordsArray, setUsedWordsArray] = useState([])
 
     const [letter1State, setLetter1State] = useState('*')
     const [letter2State, setLetter2State] = useState('*')
@@ -87,6 +88,7 @@ const SolveView = () => {
     const handleClick = () => {
 
         if (!boxArr.includes("_")) {
+            setUsedWordsArray(prevState => [...prevState, inputWord])
 
 
             const charArr = inputWord.split("");
@@ -282,7 +284,13 @@ const SolveView = () => {
 
             console.log(greenCount)
             console.log(valueArr[2])
-        } else {
+
+            setInputWord('')
+
+        }
+
+
+        else {
             alert('You must fill all boxes')
         }
 
@@ -295,12 +303,26 @@ const SolveView = () => {
 
                 <h1 className="title">Wordiddle</h1>
                 <hr style={{width: '50%', marginTop: -20}}></hr>
-                    <InputLetterGroup setInputWord={setInputWord} resetWordArr={resetWordArray} boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
+                    <InputLetterGroup setUsedWordsArray={setUsedWordsArray} setInputWord={setInputWord} resetWordArr={resetWordArray} boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
                                       l3={setLetter3State}
                                       l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
                     </InputLetterGroup>
                 <div style={styles.buttonWrapper}>
                     <button className="start-btn" onClick={handleClick}>Diddle</button>
+                </div>
+                <div style={{display: 'flex', flexDirection:'row', height: '130px', overflow: 'hidden'}}>
+                    {usedWordsArray !== undefined && (
+                        <div>
+                            {usedWordsArray.map(word => {
+                                return (
+                                    <div key={word}>
+                                        <del>{word}</del>
+                                    </div>
+                                )
+                            })
+                            }
+                        </div>)
+                    }
                 </div>
                 <div style={styles.wordContainer}>
                     {
@@ -349,7 +371,6 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        paddingTop: '50px',
         height: '400px'
     },
     remainingText: {

@@ -28,7 +28,7 @@ const InputLetterGroup = (props) => {
                     <InputLetterSquare id="5" letter={boxArr[4]} setLetterState={props.l5}></InputLetterSquare>
                 </div>
                 <div style={{marginTop: 50}}>
-                    <ResetSquare setInputWord={props.setInputWord} resetWordArr={props.resetWordArr}></ResetSquare>
+                    <ResetSquare setUsedWordsArray={props.setUsedWordsArray} setInputWord={props.setInputWord} resetWordArr={props.resetWordArr}></ResetSquare>
                 </div>
             </div>
         </>

@@ -3,6 +3,7 @@ const ResetSquare = (props) => {
     const handleClick = () => {
         props.resetWordArr('')
         props.setInputWord('')
+        props.setUsedWordsArray([])
     }
 
     return (<>
