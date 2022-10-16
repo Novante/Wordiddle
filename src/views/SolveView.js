@@ -173,6 +173,11 @@ const SolveView = () => {
                         console.log('lettercountr', letterCount)
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
 
+                        if (tempArr[j] === 'bloom'){
+                            console.log('bloom',letterCount)
+                            console.log('lettercount',inputLetterCount)
+                        }
+
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
 
                             if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
@@ -181,9 +186,9 @@ const SolveView = () => {
                                 deleteArr.push(tempArr[j])
                             }
 
-                            // if (inputLetterCount > letterCount) {
-                            //     deleteArr.push(tempArr[j])
-                            // }
+                            if (inputLetterCount > letterCount) {
+                                deleteArr.push(tempArr[j])
+                            }
 
                         }
                     }
@@ -194,24 +199,35 @@ const SolveView = () => {
                 }
 
                 if (valueArr[i].color === 'green') {
+                    let multipleLetterArr = []
                     let greenArr = []
                     for (let j = 0; j < tempArr.length; j++) {
+                        let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet = 2
+
                         let splitWord = Array.from(tempArr[j])
-                        for (let k = 0; k < 5; k++) {
+                        for (let k = 0; k < 5; k++) { // för varje bokstav i ett ord från listan
+                            let goCount = greenAndOrangeArr.join(',').split(valueArr[i].letter).length-1
 
                             if (valueArr[i]?.letter === splitWord[i]) {
-                                console.log('found word with letter on same position', tempArr[j])
                                 greenArr.push(tempArr[j])
                             }
+
+                            console.log('goCount', goCount)
+                            if (letterCount > goCount){
+                                console.log(tempArr[j])
+                                console.log(greenArr.indexOf(tempArr[j]))
+                                multipleLetterArr.push(tempArr[j])
+                            }
+
                         }
                     }
                     tempArr = tempArr.filter((word) => greenArr.includes(word))
+                    tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
                 }
 
                 if (valueArr[i].color === 'clear') {
 
                     let letterMap = new Map()
-                    let splitWordMap = new Map()
 
                     for (let j = 0; j < 5; j++) {
                         if (!letterMap.has(valueArr[j]?.letter)) {
@@ -219,13 +235,18 @@ const SolveView = () => {
                         } else {
                             letterMap.set(valueArr[j].letter, letterMap.get(valueArr[j].letter) + 1)
                         }
+
                     }
+
+                    console.log('lettermap', letterMap)
 
 
                     let clearArr = [] // e
                     console.log('goarr', greenAndOrangeArr)
                     for (let j = 0; j < tempArr.length; j++) {
                         let splitWord = Array.from(tempArr[j])
+                        let splitWordMap = new Map()
+
 
                         for (let k = 0; k < 5; k++) {
                             if (!splitWordMap.has(splitWord[k])) {
@@ -236,12 +257,14 @@ const SolveView = () => {
                         }
 
 
+
                         for (let k = 0; k < 5; k++) {
 
                             if (splitWord[k] === valueArr[i]?.letter) {
                                 if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
                                     clearArr.push(tempArr[j])
                                 }
+                                // if (splitWord.indexOf(splitWord[k] !== indexofletter))
                             }
                         }
 
