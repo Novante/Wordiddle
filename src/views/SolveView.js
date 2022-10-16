@@ -259,6 +259,7 @@ const SolveView = () => {
 
     }
 
+    console.log(1/arr.length)
     return (
         <div className="containerWrapper">
             <div onScroll={handleScroll} style={styles.container}>
@@ -282,8 +283,16 @@ const SolveView = () => {
                         <h2>1 possible word remaining</h2>
 
                     }
-                    <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have
-                        a {((1 / arr.length) * 100).toFixed(2)}% chance of selecting the correct word!</h3>
+
+                    {
+
+                        1/arr.length != 'Infinity' ?
+                            <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have a {((1 / arr.length) * 100).toFixed(2)}% chance of selecting the correct word!</h3>
+                        :                             <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You ran out of words! Try again!</h3>
+
+                    }
+
+
                     <div ref={wordListScroll} className="wordlist-wrapper">
                         <WordList style={styles.wordList} arr={arr}></WordList>
                     </div>
