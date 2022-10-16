@@ -1,13 +1,12 @@
-# Wordiddly
+# Wordiddle
 
-Wordiddly is a cheat for the popular game Wordle, available at
-https://www.novante.dev/
+Wordiddle is a cheat for the popular game Wordle. Wordiddle is available at https://www.novante.dev/
 
 ## How to use
 
 Enter a word on Wordle, submit, and check which color each respective letter has. 
 
-Enter the same word on Wordiddly, and click the squares to set the colors. 
+Enter the same word on Wordiddle, and click the squares to set the colors. 
 Press 'Diddle'. 
 
 The word list on Wordiddly has now updated to contain all possible words based on your input.
