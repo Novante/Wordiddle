@@ -4,6 +4,7 @@ const ResetSquare = (props) => {
         props.resetWordArr('')
         props.setInputWord('')
         props.setUsedWordsArray([])
+        props.clearButtons()
     }
 
     return (<>
