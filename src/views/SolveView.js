@@ -74,6 +74,8 @@ const SolveView = () => {
 
         if (v.key === 'Backspace') {
             setInputWord(inputWord => inputWord.slice(0, -1))
+        } else if (v.key === 'Enter') {
+            handleClick()
         } else if (allowedChars.includes(v.key) && inputWord.length < 5) {
             setInputWord(prev => prev + v.key)
         }
