@@ -1,9 +1,12 @@
 const ResetSquare = (props) => {
 
-
+    const handleClick = () => {
+        props.resetWordArr('')
+        props.setInputWord('')
+    }
 
     return (<>
-        <button onClick={props.resetWordArr} style={{...styles.container}}>
+        <button onClick={handleClick} style={{...styles.container}}>
             <text style={{fontSize: 20}}>&#8635;</text>
         </button>
         </>)

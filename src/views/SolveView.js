@@ -266,7 +266,7 @@ const SolveView = () => {
 
                 <h1 className="title">Wordiddle</h1>
                 <hr style={{width: '50%', marginTop: -20}}></hr>
-                    <InputLetterGroup resetWordArr={resetWordArray} boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
+                    <InputLetterGroup setInputWord={setInputWord} resetWordArr={resetWordArray} boxArr={boxArr} inputWord={inputWord} l1={setLetter1State} l2={setLetter2State}
                                       l3={setLetter3State}
                                       l4={setLetter4State} l5={setLetter5State} setInputWord={setInputWord}>
                     </InputLetterGroup>
