@@ -13,6 +13,6 @@ Press 'Diddle'.
 The word list on Wordiddly has now updated to contain all possible words based on your input.
 Repeat with another word to narrow the list down even further!
 
-### Details
+### Notes
 
 This project was written as I had nothing to do and suck at Wordle. If you liked it, please leave a comment or something :)
