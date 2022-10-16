@@ -10,7 +10,7 @@ Enter the same word on Wordiddle, and click the squares to set the colors.
 Press 'Diddle'. 
 
 The word list on Wordiddly has now updated to contain all possible words based on your input.
-Repeat with another word to narrow the list down even further!
+Repeat the process with another word to narrow the list down even further!
 
 ### Notes
 
