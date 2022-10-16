@@ -1,7 +1,7 @@
 # Wordiddly
 
 Wordiddly is a cheat for the popular game Wordle, available at
-https://chic-fairy-f1e6a7.netlify.app/
+https://www.novante.dev/
 
 ## How to use
 
