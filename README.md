@@ -1,6 +1,6 @@
 # Wordiddle
 
-Wordiddle is a cheat for the popular game Wordle. Wordiddle is available at https://www.novante.dev/
+Wordiddle is a solver for the popular game Wordle. Wordiddle is available at https://www.novante.dev/
 
 ## How to use
 
@@ -9,7 +9,7 @@ Enter a word on Wordle, submit, and check which color each respective letter has
 Enter the same word on Wordiddle, and click the squares to set the colors. 
 Press 'Diddle'. 
 
-The word list on Wordiddly has now updated to contain all possible words based on your input.
+The word list on Wordiddle has now updated to contain all possible words based on your input.
 Repeat the process with another word to narrow the list down even further!
 
 ### Notes
