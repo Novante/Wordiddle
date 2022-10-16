@@ -174,10 +174,6 @@ const SolveView = () => {
                         console.log('lettercountr', letterCount)
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
 
-                        if (tempArr[j] === 'bloom'){
-                            console.log('bloom',letterCount)
-                            console.log('lettercount',inputLetterCount)
-                        }
 
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
                             let goCount = greenAndOrangeArr.join(',').split(valueArr[i].letter).length-1
@@ -192,9 +188,9 @@ const SolveView = () => {
                             //     deleteArr.push(tempArr[j])
                             // }
 
-                            if (letterCount > goCount){
-                                multipleLetterArr.push(tempArr[j])
-                            }
+                            // if (letterCount > goCount){
+                            //     multipleLetterArr.push(tempArr[j])
+                            // }
 
                         }
                     }
@@ -221,11 +217,11 @@ const SolveView = () => {
                             }
 
                             console.log('goCount', goCount)
-                            if (letterCount > goCount){
-                                console.log(tempArr[j])
-                                console.log(greenArr.indexOf(tempArr[j]))
-                                multipleLetterArr.push(tempArr[j])
-                            }
+                            // if (letterCount > goCount){
+                            //     console.log(tempArr[j])
+                            //     console.log(greenArr.indexOf(tempArr[j]))
+                            //     multipleLetterArr.push(tempArr[j])
+                            // }
 
                         }
                     }
