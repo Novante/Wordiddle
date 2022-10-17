@@ -70,7 +70,6 @@ const SolveView = () => {
 
 
     const handleKeyboardInput = (v) => {
-        console.log(inputWord.length + 1)
 
         if (v.key === 'Backspace') {
             setInputWord(inputWord => inputWord.slice(0, -1))
@@ -82,7 +81,6 @@ const SolveView = () => {
     }
 
     const handleScroll = (e) => {
-        console.log(e.wheelDelta)
         if (e.wheelDelta < 0) {
             wordListScroll.current?.scrollBy(0, Math.abs(e.wheelDelta))
         } else if (e.wheelDelta > 0) {
@@ -147,8 +145,6 @@ const SolveView = () => {
                 charArr.unshift('*')
             }
 
-            console.log(charArr)
-
             let count = 0;
 
 
@@ -177,7 +173,6 @@ const SolveView = () => {
 
             tempArr = arr
 
-            console.log(valueArr)
 
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
                 let multipleLetterArr = []
@@ -186,7 +181,6 @@ const SolveView = () => {
                 if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
                     for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
                         let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
-                        console.log('lettercountr', letterCount)
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
 
 
@@ -231,7 +225,6 @@ const SolveView = () => {
                                 greenArr.push(tempArr[j])
                             }
 
-                            console.log('goCount', goCount)
                             // if (letterCount > goCount){
                             //     console.log(tempArr[j])
                             //     console.log(greenArr.indexOf(tempArr[j]))
@@ -257,11 +250,9 @@ const SolveView = () => {
 
                     }
 
-                    console.log('lettermap', letterMap)
 
 
                     let clearArr = [] // e
-                    console.log('goarr', greenAndOrangeArr)
                     for (let j = 0; j < tempArr.length; j++) {
                         let splitWord = Array.from(tempArr[j])
                         let splitWordMap = new Map()
@@ -294,8 +285,6 @@ const SolveView = () => {
             setArr(tempArr)
 
 
-            console.log(greenCount)
-            console.log(valueArr[2])
 
             setInputWord('')
             clearNonGreenLetterOnSubmit()
@@ -342,7 +331,6 @@ const SolveView = () => {
         }
     }
 
-    console.log(1 / arr.length)
     return (
         <div className="containerWrapper">
             <div onScroll={handleScroll} style={styles.container}>
