@@ -175,6 +175,7 @@ const SolveView = () => {
 
 
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
+
                 let multipleLetterArr = []
                 let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
                 let deleteArr = []
@@ -238,7 +239,7 @@ const SolveView = () => {
                 }
 
                 if (valueArr[i].color === 'clear') {
-
+                    let multipleLetterArr = []
                     let letterMap = new Map()
 
                     for (let j = 0; j < 5; j++) {
@@ -251,9 +252,9 @@ const SolveView = () => {
                     }
 
 
-
                     let clearArr = [] // e
                     for (let j = 0; j < tempArr.length; j++) {
+                        let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet = 2
                         let splitWord = Array.from(tempArr[j])
                         let splitWordMap = new Map()
 
@@ -262,7 +263,7 @@ const SolveView = () => {
                             if (!splitWordMap.has(splitWord[k])) {
                                 splitWordMap.set(splitWord[k], 1)
                             } else {
-                                splitWordMap.set(splitWord[k], splitWordMap.get(splitWord[k] + 1))
+                                splitWordMap.set(splitWord[k], splitWordMap.get(splitWord[k]) + 1)
                             }
                         }
 
@@ -272,10 +273,22 @@ const SolveView = () => {
                             if (splitWord[k] === valueArr[i]?.letter) {
                                 if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
                                     clearArr.push(tempArr[j])
+                                } else if (greenAndOrangeArr.includes(valueArr[i].letter)) {
+                                    let ct = tempArr[j].split(valueArr[i].letter).length - 1  // green in word
+                                    let merge = greenAndOrangeArr.join('')
+                                    let ict = merge.split(valueArr[i].letter).length - 1
+
+                                    if (ct > ict) {
+                                        clearArr.push(tempArr[j])
+                                    }
+
                                 }
-                                // if (splitWord.indexOf(splitWord[k] !== indexofletter))
                             }
                         }
+
+
+                        // if (splitWordMap.get(splitWordMap[i].letter))
+
 
                     }
                     tempArr = tempArr.filter((word) => !clearArr.includes(word))
@@ -283,7 +296,6 @@ const SolveView = () => {
             }
 
             setArr(tempArr)
-
 
 
             setInputWord('')
