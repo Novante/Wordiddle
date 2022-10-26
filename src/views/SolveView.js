@@ -205,7 +205,7 @@ const SolveView = () => {
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
 
                         for (let j = 0; j < letterMap.size; j++) {
-                            if (letterMap.get(valueArr[i]?.letter) === letterCount){
+                            if (letterMap.get(valueArr[i]?.letter) <= letterCount){
                                 acceptedWord = false;
                             }
                         }
