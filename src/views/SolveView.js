@@ -46,6 +46,10 @@ const SolveView = () => {
     let usedCharArr = []
     let greenAndOrangeArr = []
     let tempArr = arr
+    let acceptedWord = true
+    let equalOrangeLettersArr = []
+
+
 
 
     useEffect(() => {
@@ -176,16 +180,41 @@ const SolveView = () => {
 
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
 
+                let letterCount = 0
+
                 let multipleLetterArr = []
                 let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
                 let deleteArr = []
                 if (valueArr[i]?.color === 'orange') { // om bokstaven är orange
+
+                    let letterMap = new Map()
+
+                    for (let j = 0; j < 5; j++) {
+                        if (!letterMap.has(valueArr[j]?.letter) && valueArr[j]?.color === 'orange') {
+                            letterMap.set(valueArr[j].letter, 1)
+                        } else if (valueArr[j]?.color === 'orange') {
+                            letterMap.set(valueArr[j].letter, letterMap.get(valueArr[j].letter) + 1)
+                        }
+                    }
+
+
+
+
                     for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
-                        let letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
+                        letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
+
+                        for (let j = 0; j < letterMap.size; j++) {
+                            if (letterMap.get(valueArr[i]?.letter) === letterCount){
+                                acceptedWord = false;
+                            }
+                        }
 
 
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
+
+
+
                             let goCount = greenAndOrangeArr.join(',').split(valueArr[i].letter).length - 1
 
                             if (valueArr[i]?.letter === splitWord[i]) { // om bokstäverna matchar i position, ta bort dem
@@ -194,7 +223,7 @@ const SolveView = () => {
                                 deleteArr.push(tempArr[j])
                             }
 
-                            // if (inputLetterCount > letterCount) {
+                            // if (letterMap > letterCount) {
                             //     deleteArr.push(tempArr[j])
                             // }
 
@@ -203,12 +232,23 @@ const SolveView = () => {
                             // }
 
                         }
+
+                        if (acceptedWord !== true){
+                            equalOrangeLettersArr.push(tempArr[j])
+                            console.log(tempArr[j], false)
+                            acceptedWord = true
+                        }
+
+
                     }
+
+
 
                     // filtrera bort ord som förekommer två gånger
 
-                    tempArr = tempArr.filter((word) => !deleteArr.includes(word))
-                    tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
+                        tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+                        tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
+
 
                 }
 
@@ -234,7 +274,7 @@ const SolveView = () => {
 
                         }
                     }
-                    tempArr = tempArr.filter((word) => greenArr.includes(word))
+                    // tempArr = tempArr.filter((word) => greenArr.includes(word))
                     tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
                 }
 
@@ -294,6 +334,8 @@ const SolveView = () => {
                     tempArr = tempArr.filter((word) => !clearArr.includes(word))
                 }
             }
+
+            tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
 
             setArr(tempArr)
 
