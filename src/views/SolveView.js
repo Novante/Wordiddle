@@ -274,7 +274,7 @@ const SolveView = () => {
 
                         }
                     }
-                    // tempArr = tempArr.filter((word) => greenArr.includes(word))
+                    tempArr = tempArr.filter((word) => greenArr.includes(word))
                     tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
                 }
 
@@ -335,7 +335,9 @@ const SolveView = () => {
                 }
             }
 
-            tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
+            if(orangeLetters.length > 0){
+                tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
+            }
 
             setArr(tempArr)
 
