@@ -48,8 +48,7 @@ const SolveView = () => {
     let tempArr = arr
     let acceptedWord = true
     let equalOrangeLettersArr = []
-
-
+    let finalDeleteArr = [];
 
 
     useEffect(() => {
@@ -198,21 +197,18 @@ const SolveView = () => {
                     }
 
 
-
-
                     for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
                         letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
 
                         for (let j = 0; j < letterMap.size; j++) {
-                            if (letterMap.get(valueArr[i]?.letter) <= letterCount){
+                            if (letterMap.get(valueArr[i]?.letter) <= letterCount) {
                                 acceptedWord = false;
                             }
                         }
 
 
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
-
 
 
                             let goCount = greenAndOrangeArr.join(',').split(valueArr[i].letter).length - 1
@@ -233,7 +229,7 @@ const SolveView = () => {
 
                         }
 
-                        if (acceptedWord !== true){
+                        if (acceptedWord !== true) {
                             equalOrangeLettersArr.push(tempArr[j])
                             console.log(tempArr[j], false)
                             acceptedWord = true
@@ -243,11 +239,10 @@ const SolveView = () => {
                     }
 
 
-
                     // filtrera bort ord som förekommer två gånger
 
-                        tempArr = tempArr.filter((word) => !deleteArr.includes(word))
-                        tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
+                    tempArr = tempArr.filter((word) => !deleteArr.includes(word))
+                    tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
 
 
                 }
@@ -314,13 +309,15 @@ const SolveView = () => {
                                 if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
                                     clearArr.push(tempArr[j])
                                 } else if (greenAndOrangeArr.includes(valueArr[i].letter)) {
+                                    // console.log('entered')
                                     let ct = tempArr[j].split(valueArr[i].letter).length - 1  // green in word
                                     let merge = greenAndOrangeArr.join('')
                                     let ict = merge.split(valueArr[i].letter).length - 1
 
-                                    console.log(tempArr[j],  'wordlistWord' + ct, 'inputword' + ict)
 
                                     if (ict !== ct) {
+                                        // console.log(ict, ct, tempArr[j])
+
                                         clearArr.push(tempArr[j])
                                     }
 
@@ -336,10 +333,38 @@ const SolveView = () => {
                     tempArr = tempArr.filter((word) => !clearArr.includes(word))
                 }
 
-
             }
 
-            if(orangeLetters.length > 0){
+            if (greenAndOrangeArr.length > 0){
+                let joinedGOArr = greenAndOrangeArr.join('')
+
+                for (let e = 0; e < 5; e++) {
+                    for (let i = 0; i < tempArr.length; i++) {
+                        // console.log(i)
+                        let joinedGOArrCount = joinedGOArr.split(valueArr[e]?.letter).length - 1
+                        console.log(joinedGOArrCount)
+
+                        let ct = tempArr[i].split(valueArr[e]?.letter).length - 1  // green in word
+
+                        if (joinedGOArrCount <= ct){
+                            finalDeleteArr.push(tempArr[i])
+                        }
+
+                    }
+                }
+                console.log(finalDeleteArr)
+
+                tempArr = tempArr.filter((word) => finalDeleteArr.includes(word))
+            }
+
+
+
+
+
+
+
+
+            if (orangeLetters.length > 0) {
                 tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
             }
 
