@@ -335,27 +335,6 @@ const SolveView = () => {
 
             }
 
-            if (greenAndOrangeArr.length > 0){
-                let joinedGOArr = greenAndOrangeArr.join('')
-
-                for (let e = 0; e < 5; e++) {
-                    for (let i = 0; i < tempArr.length; i++) {
-                        // console.log(i)
-                        let joinedGOArrCount = joinedGOArr.split(valueArr[e]?.letter).length - 1
-                        console.log(joinedGOArrCount)
-
-                        let ct = tempArr[i].split(valueArr[e]?.letter).length - 1  // green in word
-
-                        if (joinedGOArrCount <= ct){
-                            finalDeleteArr.push(tempArr[i])
-                        }
-
-                    }
-                }
-                console.log(finalDeleteArr)
-
-                tempArr = tempArr.filter((word) => finalDeleteArr.includes(word))
-            }
 
 
 
@@ -367,6 +346,32 @@ const SolveView = () => {
             if (orangeLetters.length > 0) {
                 tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
             }
+
+
+            let joinedGOArr = greenAndOrangeArr.join('')
+
+            for (let e = 0; e < 5; e++) {
+                for (let i = 0; i < tempArr.length; i++) {
+                    // console.log(i)
+                    let joinedGOArrCount = joinedGOArr.split(valueArr[e]?.letter).length - 1
+                    console.log(joinedGOArrCount)
+
+                    let ct = tempArr[i].split(valueArr[e]?.letter).length - 1  // green in word
+
+                    if (ct >= joinedGOArrCount && (valueArr[e]?.color === 'orange' || valueArr[e]?.color === 'green')){
+                        console.log('green in target' + ct)
+                        console.log('green in source' + joinedGOArrCount)
+                        console.log('target word: ' + tempArr[i])
+                        finalDeleteArr.push(tempArr[i])
+                    }
+
+
+                }
+            }
+
+            tempArr = tempArr.filter((word) => finalDeleteArr.includes(word))
+            console.log(finalDeleteArr)
+            console.log(tempArr)
 
             setArr(tempArr)
 
