@@ -320,7 +320,7 @@ const SolveView = () => {
 
                                     console.log(tempArr[j],  'wordlistWord' + ct, 'inputword' + ict)
 
-                                    if (ict > ct) {
+                                    if (ict !== ct) {
                                         clearArr.push(tempArr[j])
                                     }
 
