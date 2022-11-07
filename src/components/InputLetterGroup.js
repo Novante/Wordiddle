@@ -1,5 +1,4 @@
 import InputLetterSquare from "./InputLetterSquare";
-import {useEffect, useState} from "react";
 import ResetSquare from "./ResetSquare";
 
 const InputLetterGroup = (props) => {

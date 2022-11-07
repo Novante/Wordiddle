@@ -1,9 +1,6 @@
-import {v4 as uuid} from 'uuid';
-import {createRef, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import WordList from "../components/WordList";
-import InputLetterSquare from "../components/InputLetterSquare";
 import InputLetterGroup from "../components/InputLetterGroup";
-import extStyles from '../styles.css'
 import {wordString} from "../utils/entireWordleWordList";
 
 const SolveView = () => {
@@ -19,8 +16,6 @@ const SolveView = () => {
     const [buttonCount4, setButtonCount4] = useState(1)
     const [buttonCount5, setButtonCount5] = useState(1)
 
-
-    // const wordString = "amass, bassi"
     const [arr, setArr] = useState(wordString.split(","))
     const [inputWord, setInputWord] = useState('')
     let boxArr = ['_', '_', '_', '_', '_']
@@ -39,11 +34,7 @@ const SolveView = () => {
     let orangeCount = 0
     let blankCount = 0
     let orangeLetters = []
-    let greenLetters = []
-    let clearLetters = []
-    let greenFiltered = false;
     const valueArr = []
-    let usedCharArr = []
     let greenAndOrangeArr = []
     let tempArr = arr
     let acceptedWord = true
@@ -53,9 +44,8 @@ const SolveView = () => {
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyboardInput, function (value) {
-                value.preventDefault()
-            }
-        )
+            value.preventDefault()
+        })
         return () => {
             window.removeEventListener("keydown", handleKeyboardInput, function (value) {
             })
@@ -88,10 +78,7 @@ const SolveView = () => {
             wordListScroll.current?.scrollBy(0, 50)
         } else if (e.wheelDelta > 0) {
             wordListScroll.current?.scrollBy(0, -50)
-
         }
-
-
     }
 
     const resetWordArray = () => {
@@ -104,9 +91,7 @@ const SolveView = () => {
         if (!boxArr.includes("_")) {
             setUsedWordsArray(prevState => [...prevState, inputWord])
 
-
             const charArr = inputWord.split("");
-
 
             if (letter5State === '-') {
                 charArr.splice(4, 0, '-')
@@ -150,7 +135,6 @@ const SolveView = () => {
 
             let count = 0;
 
-
             for (let i = 0; i < charArr.length; i++) {
                 if (charArr[i] === ('+') || charArr[i] === ('-') || charArr[i] === ('*')) {
 
@@ -176,11 +160,9 @@ const SolveView = () => {
 
             tempArr = arr
 
-
             for (let i = 0; i < valueArr.length; i++) { // för varje bokstav
 
                 let letterCount = 0
-
                 let multipleLetterArr = []
                 let inputLetterCount = inputWord.split(valueArr[i].letter).length - 1
                 let deleteArr = []
@@ -196,7 +178,6 @@ const SolveView = () => {
                         }
                     }
 
-
                     for (let j = 0; j < tempArr.length; j++) { // loopa genom hela ordlistan
                         letterCount = tempArr[j].split(valueArr[i].letter).length - 1 // kolla hur många gånger letter förekommer i ordet
                         let splitWord = Array.from(tempArr[j]) // skapa charArr från varje ord på index i i ordlistan
@@ -206,7 +187,6 @@ const SolveView = () => {
                                 acceptedWord = false;
                             }
                         }
-
 
                         for (let k = 0; k < 5; k++) { // för varje bokstav i splitword
 
@@ -218,15 +198,6 @@ const SolveView = () => {
                             } else if (!tempArr[j].includes(valueArr[i]?.letter)) {
                                 deleteArr.push(tempArr[j])
                             }
-
-                            // if (letterMap > letterCount) {
-                            //     deleteArr.push(tempArr[j])
-                            // }
-
-                            // if (letterCount > goCount){
-                            //     multipleLetterArr.push(tempArr[j])
-                            // }
-
                         }
 
                         if (acceptedWord !== true) {
@@ -234,16 +205,10 @@ const SolveView = () => {
                             console.log(tempArr[j], false)
                             acceptedWord = true
                         }
-
-
                     }
-
-
-                    // filtrera bort ord som förekommer två gånger
 
                     tempArr = tempArr.filter((word) => !deleteArr.includes(word))
                     tempArr = tempArr.filter((word) => !multipleLetterArr.includes(word))
-
 
                 }
 
@@ -260,13 +225,6 @@ const SolveView = () => {
                             if (valueArr[i]?.letter === splitWord[i]) {
                                 greenArr.push(tempArr[j])
                             }
-
-                            // if (letterCount > goCount){
-                            //     console.log(tempArr[j])
-                            //     console.log(greenArr.indexOf(tempArr[j]))
-                            //     multipleLetterArr.push(tempArr[j])
-                            // }
-
                         }
                     }
                     tempArr = tempArr.filter((word) => greenArr.includes(word))
@@ -274,7 +232,6 @@ const SolveView = () => {
                 }
 
                 if (valueArr[i].color === 'clear') {
-                    let multipleLetterArr = []
                     let letterMap = new Map()
 
                     for (let j = 0; j < 5; j++) {
@@ -293,7 +250,6 @@ const SolveView = () => {
                         let splitWord = Array.from(tempArr[j])
                         let splitWordMap = new Map()
 
-
                         for (let k = 0; k < 5; k++) {
                             if (!splitWordMap.has(splitWord[k])) {
                                 splitWordMap.set(splitWord[k], 1)
@@ -302,90 +258,59 @@ const SolveView = () => {
                             }
                         }
 
-
                         for (let k = 0; k < 5; k++) {
 
                             if (splitWord[k] === valueArr[i]?.letter) {
                                 if (!greenAndOrangeArr.includes(valueArr[i]?.letter)) {
                                     clearArr.push(tempArr[j])
                                 } else if (greenAndOrangeArr.includes(valueArr[i].letter)) {
-                                    // console.log('entered')
                                     let ct = tempArr[j].split(valueArr[i].letter).length - 1  // green in word
                                     let merge = greenAndOrangeArr.join('')
                                     let ict = merge.split(valueArr[i].letter).length - 1
 
-
                                     if (ict !== ct) {
-                                        // console.log(ict, ct, tempArr[j])
-
                                         clearArr.push(tempArr[j])
                                     }
-
                                 }
                             }
                         }
-
-
-                        // if (splitWordMap.get(splitWordMap[i].letter))
-
-
                     }
                     tempArr = tempArr.filter((word) => !clearArr.includes(word))
                 }
-
             }
-
-
-
-
-
-
-
-
 
             if (orangeLetters.length > 0) {
                 tempArr = tempArr.filter((word) => equalOrangeLettersArr.includes(word))
             }
 
+            if (equalOrangeLettersArr.length > 0) {
+                let joinedGOArr = greenAndOrangeArr.join('')
 
-if (equalOrangeLettersArr.length > 0){
-    let joinedGOArr = greenAndOrangeArr.join('')
+                for (let e = 0; e < 5; e++) {
+                    for (let i = 0; i < tempArr.length; i++) {
+                        let joinedGOArrCount = joinedGOArr.split(valueArr[e]?.letter).length - 1
+                        console.log(joinedGOArrCount)
 
-    for (let e = 0; e < 5; e++) {
-        for (let i = 0; i < tempArr.length; i++) {
-            // console.log(i)
-            let joinedGOArrCount = joinedGOArr.split(valueArr[e]?.letter).length - 1
-            console.log(joinedGOArrCount)
+                        let ct = tempArr[i].split(valueArr[e]?.letter).length - 1  // green in word
 
-            let ct = tempArr[i].split(valueArr[e]?.letter).length - 1  // green in word
-
-            if (ct >= joinedGOArrCount && (valueArr[e]?.color === 'orange' || valueArr[e]?.color === 'green')){
-                console.log('green in target' + ct)
-                console.log('green in source' + joinedGOArrCount)
-                console.log('target word: ' + tempArr[i])
-                finalDeleteArr.push(tempArr[i])
+                        if (ct >= joinedGOArrCount && (valueArr[e]?.color === 'orange' || valueArr[e]?.color === 'green')) {
+                            console.log('green in target' + ct)
+                            console.log('green in source' + joinedGOArrCount)
+                            console.log('target word: ' + tempArr[i])
+                            finalDeleteArr.push(tempArr[i])
+                        }
+                    }
+                }
+                tempArr = tempArr.filter((word) => finalDeleteArr.includes(word))
+                console.log(finalDeleteArr)
+                console.log(tempArr)
             }
-
-
-        }
-    }
-
-
-
-            tempArr = tempArr.filter((word) => finalDeleteArr.includes(word))
-            console.log(finalDeleteArr)
-            console.log(tempArr)
-}
             setArr(tempArr)
-
-
             setInputWord('')
             clearNonGreenLetterOnSubmit()
-
         } else {
             alert('You must fill all boxes')
         }
-
     }
 
     const clearNonGreenLetterOnSubmit = () => {
@@ -398,36 +323,26 @@ if (equalOrangeLettersArr.length > 0){
             setBackgroundColor2('lightgray')
             setButtonCount2(1)
             setLetter2State('*')
-
-
         }
         if (backgroundColor3 !== 'green') {
             setBackgroundColor3('lightgray')
             setButtonCount3(1)
             setLetter3State('*')
-
-
         }
         if (backgroundColor4 !== 'green') {
             setBackgroundColor4('lightgray')
             setButtonCount4(1)
             setLetter4State('*')
-
-
         }
         if (backgroundColor5 !== 'green') {
             setBackgroundColor5('lightgray')
             setButtonCount5(1)
             setLetter5State('*')
-
-
         }
     }
 
-    return (
-        <div className="containerWrapper">
+    return (<div className="containerWrapper">
             <div onScroll={handleScroll} style={styles.container}>
-
                 <h1 className="title">Wordiddle</h1>
                 <hr style={{width: '50%', marginTop: -20}}></hr>
                 <InputLetterGroup buttonCount1={buttonCount1} buttonCount2={buttonCount2} buttonCount3={buttonCount3}
@@ -450,48 +365,32 @@ if (equalOrangeLettersArr.length > 0){
                     <button className="start-btn" onClick={handleClick}>Diddle</button>
                 </div>
                 <div style={{display: 'flex', flexDirection: 'row', height: '130px', overflow: 'hidden'}}>
-                    {usedWordsArray !== undefined && (
-                        <div>
-                            {usedWordsArray.map(word => {
-                                return (
-                                    <div key={word}>
-                                        <del>{word}</del>
-                                    </div>
-                                )
-                            })
-                            }
-                        </div>)
-                    }
+                    {usedWordsArray !== undefined && (<div>
+                        {usedWordsArray.map(word => {
+                            return (<div key={word}>
+                                <del>{word}</del>
+                            </div>)
+                        })}
+                    </div>)}
                 </div>
                 <div style={styles.wordContainer}>
-                    {
-                        arr.length > 1 &&
-                        <h2>{arr.length} possible words remaining</h2>
-                    }
-                    {
-                        arr.length === 1 &&
-                        <h2>1 possible word remaining</h2>
+                    {arr.length > 1 && <h2>{arr.length} possible words remaining</h2>}
+                    {arr.length === 1 && <h2>1 possible word remaining</h2>
 
                     }
 
                     {
 
-                        1 / arr.length != 'Infinity' ?
-                            <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have
-                                a {((1 / arr.length) * 100).toFixed(2)}% chance of selecting the correct word!</h3>
-                            :
+                        1 / arr.length != 'Infinity' ? <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You have
+                                a {((1 / arr.length) * 100).toFixed(2)}% chance of selecting the correct word!</h3> :
                             <h3 style={{fontStyle: 'italic', marginTop: '-10px'}}>You ran out of words! Try again!</h3>
 
                     }
-
-
                     <div ref={wordListScroll} className="wordlist-wrapper">
                         <WordList style={styles.wordList} arr={arr}></WordList>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
     )
@@ -507,27 +406,14 @@ const styles = {
         height: '100vh',
         overflow: 'hidden',
 
-    },
-    wordContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: '400px'
-    },
-    remainingText: {
-        textAlign: 'center',
-        width: '50%',
-        maxHeight: '50px',
-    },
-    wordList: {},
-    wordListWrapper: {
-        height: '500px',
-        overflowY: 'scroll'
-    },
-    buttonWrapper: {
-        display: 'flex',
-        justifyContent: 'center',
-        width: '10%'
+    }, wordContainer: {
+        display: 'flex', alignItems: 'center', flexDirection: 'column', height: '400px'
+    }, remainingText: {
+        textAlign: 'center', width: '50%', maxHeight: '50px',
+    }, wordList: {}, wordListWrapper: {
+        height: '500px', overflowY: 'scroll'
+    }, buttonWrapper: {
+        display: 'flex', justifyContent: 'center', width: '10%'
     },
 
 
